@@ -1,6 +1,12 @@
+interface MatchScore {
+    home: number;
+    away: number;
+}
+
 export class WorldCupScoreBoard {
-    greeting: string;
-    constructor() {
-        this.greeting = "Hello, TypeScript!";
+    private matches: { [key: string]: MatchScore } = {};
+
+    startMatch(homeTeam: string, awayTeam: string): void {
+        this.matches[`${homeTeam} - ${awayTeam}`] = { home: 0, away: 0 };
     }
 }
