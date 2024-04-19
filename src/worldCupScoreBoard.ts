@@ -31,7 +31,7 @@ export class WorldCupScoreBoard {
             throw new Error(`No ongoing match between ${homeTeam} and ${awayTeam}`);
         }
     }
-// Get the summary of all matches
+    // Get the summary of all matches
     getSummary(): string[] {
         const sortedMatches = Object.keys(this.matches)
         // Sort the matches by the difference in scores
