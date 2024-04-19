@@ -10,4 +10,4 @@ The project is using a TDD development approach.
 3. Run `npx tsc && npm start &&  npx jest worldCupBoard.spec.js` in the root directory of the project
 
 
-# The src directory contains the logic for the terminal output. 
+The src directory contains the logic for the terminal output. 
