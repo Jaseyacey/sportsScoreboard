@@ -10,10 +10,20 @@ export class WorldCupScoreBoard {
         this.matches[`${homeTeam} - ${awayTeam}`] = { home: 0, away: 0 };
     }
 
-    updateScore(homeTeam: string, awayTeam: string, homeScore: number, awayScore: number): void {
+    updateScore(homeTeam: string, awayTeam: string, homeGoals: number, awayGoals: number): void {
         const key = `${homeTeam} - ${awayTeam}`;
         if (this.matches.hasOwnProperty(key)) {
-            this.matches[key] = { home: homeScore, away: awayScore };
+            this.matches[key].home += homeGoals;
+            this.matches[key].away += awayGoals;
+        } else {
+            throw new Error(`No ongoing match between ${homeTeam} and ${awayTeam}`);
+        }
+    }
+
+    finishMatch(homeTeam: string, awayTeam: string): void {
+        const key = `${homeTeam} - ${awayTeam}`;
+        if (this.matches.hasOwnProperty(key)) {
+            delete this.matches[key];
         } else {
             throw new Error(`No ongoing match between ${homeTeam} and ${awayTeam}`);
         }
@@ -22,23 +32,24 @@ export class WorldCupScoreBoard {
     getSummary(): string[] {
         const sortedMatches = Object.keys(this.matches)
             .sort((a, b) => {
-                const scoreA = this.matches[a].home + this.matches[a].away;
-                const scoreB = this.matches[b].home + this.matches[b].away;
-                return scoreB - scoreA || Object.keys(this.matches).indexOf(b) - Object.keys(this.matches).indexOf(a);
+                const scoreDiffA = this.matches[a].home - this.matches[a].away;
+                const scoreDiffB = this.matches[b].home - this.matches[b].away;
+    
+                if (scoreDiffA !== scoreDiffB) {
+                    return scoreDiffB - scoreDiffA;
+                }
+    
+                const totalScoreA = this.matches[a].home + this.matches[a].away;
+                const totalScoreB = this.matches[b].home + this.matches[b].away;
+    
+                return totalScoreB - totalScoreA;
             });
+    
         return sortedMatches.map(match => {
             const [homeTeam, awayTeam] = match.split(' - ');
             const { home, away } = this.matches[match];
             return `${homeTeam} - ${awayTeam} ${home} - ${away}`;
         });
     }
-
-    getMatchScore(homeTeam: string, awayTeam: string): MatchScore {
-        const key = `${homeTeam} - ${awayTeam}`;
-        if (this.matches.hasOwnProperty(key)) {
-            return this.matches[key];
-        } else {
-            throw new Error(`No ongoing match between ${homeTeam} and ${awayTeam}`);
-        }
-    }
 }
+    
