@@ -1,2 +1,6 @@
-const greeting: string = "Hello, TypeScript!";
-console.log(greeting);
+export class WorldCupScoreBoard {
+    greeting: string;
+    constructor() {
+        this.greeting = "Hello, TypeScript!";
+    }
+}
