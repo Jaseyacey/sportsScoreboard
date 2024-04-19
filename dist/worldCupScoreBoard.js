@@ -30,5 +30,14 @@ class WorldCupScoreBoard {
             return `${homeTeam} - ${awayTeam} ${home} - ${away}`;
         });
     }
+    getMatchScore(homeTeam, awayTeam) {
+        const key = `${homeTeam} - ${awayTeam}`;
+        if (this.matches.hasOwnProperty(key)) {
+            return this.matches[key];
+        }
+        else {
+            throw new Error(`No ongoing match between ${homeTeam} and ${awayTeam}`);
+        }
+    }
 }
 exports.WorldCupScoreBoard = WorldCupScoreBoard;
