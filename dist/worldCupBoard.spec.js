@@ -35,4 +35,14 @@ describe('FootballWorldCupScoreboard', () => {
         ];
         expect(summary).toEqual(expectedSummary);
     });
+    it('should get summary with no matches', () => {
+        const summary = scoreboard.getSummary();
+        expect(summary).toEqual([]);
+    });
+    it('should show an error when the team has no name', () => {
+        expect(() => scoreboard.startMatch('', 'Canada')).toThrowError('The team name is required');
+    });
+    it('should show an error when the match is not ongoing', () => {
+        expect(() => scoreboard.updateScore('Mexico', 'Canada', 0, 5)).toThrowError('No ongoing match between Mexico and Canada');
+    });
 });
